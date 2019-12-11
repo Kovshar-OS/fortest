@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>relock</groupId>
+	<artifactId>relock</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<name>relock web-app</name>
+
+	<modules>
+		<module>tabutron</module>
+		<module>cent</module>
+	</modules>
+
+	<properties>
+		<scm.host>dd01.intra</scm.host>
+		<artifactory.base.url>https://${scm.host}/artifactory</artifactory.base.url>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit.version>4.12</junit.version>
+		<plugin.surefire>2.21.0</plugin.surefire>
+		<target.jvm.version>1.8</target.jvm.version>
+		<source.jvm.version>1.8</source.jvm.version>
+		<java.version>1.8</java.version>
+		<build.dir>${project.basedir}/target</build.dir>
+		<buildNumberPropertiesFile.dir>${build.dir}</buildNumberPropertiesFile.dir>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+		<buildDateTime>${maven.build.timestamp}</buildDateTime>
+		<build.tag>${build.datetime}-${build.revision}-${build.counter}</build.tag>
+		<release.properties.file>release.properties</release.properties.file>
+		<slf4j.version>1.6.4</slf4j.version>
+		<version.spring.framework>4.3.14.RELEASE</version.spring.framework>
+		<version.spring.security>4.2.4.RELEASE</version.spring.security>
+		<version.spring.ws>2.4.2.RELEASE</version.spring.ws>
+		<aspectj.version>1.8.13</aspectj.version>
+		<jackson.version>2.7.4</jackson.version>
+		<version.hibernate4>4.2.21.Final</version.hibernate4>
+		<version.hibernate4.commons-annotations>4.0.2.Final</version.hibernate4.commons-annotations>
+		<version.hibernate4.validator>4.3.2.Final</version.hibernate4.validator>
+		<apachetiles.version>3.0.8</apachetiles.version>
+	
+		<skipTests>true</skipTests>
+	</properties>
+
+
+
+
+
+	<repositories>
+		<repository>
+			<id>spring-maven-release</id>
+			<name>Spring Maven Release Repository</name>
+			<url>http://maven.springframework.org/release</url>
+		</repository>
+		<repository>
+			<id>spring-maven-milestone</id>
+			<name>Spring Maven Milestone Repository</name>
+			<url>http://maven.springframework.org/milestone</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-maven-release</id>
+			<name>Spring Maven Release Repository</name>
+			<url>http://maven.springframework.org/release</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-maven-milestone</id>
+			<name>Spring Maven Milestone Repository</name>
+			<url>http://maven.springframework.org/milestone</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- <dependency> <groupId>labyrinth</groupId> <artifactId>labyrinth</artifactId> 
+				<version>1.0</version> <type>war</type> </dependency> -->
+
+			<!-- Test dependencies -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<type>jar</type>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>2.1.1</version>
+			</dependency>
+
+			
+
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<index>false</index>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<Built-By>${user.name}</Built-By>
+							<Build-Platform>${os.name} ${os.version} (${os.arch})
+							</Build-Platform>
+							<Build-Dir>${user.dir}</Build-Dir>
+						</manifestEntries>
+						<manifestSections>
+							<manifestSection>
+								<name>
+									META-INF/
+								</name>
+								<manifestEntries>
+									<Specification-Title>${project.groupId}-${project.artifactId}
+									</Specification-Title>
+									<Specification-Version>${project.version}
+									</Specification-Version>
+									<Specification-Vendor>tttt
+									</Specification-Vendor>
+									<Implementation-Title>${project.build.finalName}
+									</Implementation-Title>
+									<Implementation-Version>${build.tag}</Implementation-Version>
+									<Implementation-Vendor>tttt
+									</Implementation-Vendor>
+								</manifestEntries>
+							</manifestSection>
+						</manifestSections>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<configuration>
+					<buildNumberPropertiesFileLocation>${buildNumberPropertiesFile.dir}/buildNumber.properties</buildNumberPropertiesFileLocation>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-revision</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+						<configuration>
+							<useLastCommittedRevision>false</useLastCommittedRevision>
+							<revisionOnScmFailure>local</revisionOnScmFailure>
+							<buildNumberPropertyName>build.revision</buildNumberPropertyName>
+							<timestampFormat>{0,date,yyyy-MM-dd HH:mm}</timestampFormat>
+							<doCheck>false</doCheck>
+							<doUpdate>false</doUpdate>
+							<shortRevisionLength>8</shortRevisionLength>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-datetime</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+						<configuration>
+							<buildNumberPropertyName>build.datetime</buildNumberPropertyName>
+							<timestampFormat>{0,date,yyyy-MM-dd HH:mm}</timestampFormat>
+							<timestampPropertyName>build.time</timestampPropertyName>
+							<format>{0,date,yyyyMMdd-HHmm}</format>
+							<items>
+								<item>timestamp</item>
+							</items>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-counter</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+						<configuration>
+							<shortRevisionLength>8</shortRevisionLength>
+							<buildNumberPropertyName>build.counter</buildNumberPropertyName>
+							<format>{0,number,00000}</format>
+							<items>
+								<item>buildNumber0</item>
+							</items>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven</groupId>
+					<artifactId>maven-plugin-api</artifactId>
+					<version>3.0.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antlr-plugin</artifactId>
+					<version>2.0-beta-1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>buildnumber-maven-plugin</artifactId>
+					<version>1.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.7</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.3</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>${source.jvm.version}</source>
+						<target>${target.jvm.version}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${plugin.surefire}</version>
+					<configuration>
+						<skipTests>${skipTests}</skipTests>
+						<failIfNoTests>false</failIfNoTests>
+					</configuration>
+				</plugin>
+			</plugins>
+
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>repo-local</id>
+			<activation>
+				<file>
+					<exists>${user.home}/maven.repo.local</exists>
+				</file>
+			</activation>
+			<repositories>
+				<repository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>central</id>
+					<name>libs-release</name>
+					<url>http://localhost:8081/artifactory/libs-release</url>
+				</repository>
+				<repository>
+					<snapshots />
+					<id>snapshots</id>
+					<name>libs-snapshot</name>
+					<url>http://localhost:8081/artifactory/libs-snapshot</url>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>central</id>
+					<name>plugins-release</name>
+					<url>http://localhost:8081/artifactory/plugins-release</url>
+				</pluginRepository>
+				<pluginRepository>
+					<snapshots />
+					<id>snapshots</id>
+					<name>plugins-snapshot</name>
+					<url>http://localhost:8081/artifactory/plugins-snapshot</url>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+		<profile>
+			<id>repo-usb</id>
+			<activation>
+				<file>
+					<missing>${user.home}/maven.repo.local</missing>
+				</file>
+			</activation>
+			<repositories>
+				<repository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>central</id>
+					<name>libs-release</name>
+					<url>${artifactory.base.url}/libs-release</url>
+				</repository>
+				<repository>
+					<snapshots />
+					<id>snapshots</id>
+					<name>libs-snapshot</name>
+					<url>${artifactory.base.url}/libs-snapshot</url>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>central</id>
+					<name>plugins-release</name>
+					<url>${artifactory.base.url}/plugins-release</url>
+				</pluginRepository>
+				<pluginRepository>
+					<snapshots />
+					<id>snapshots</id>
+					<name>plugins-snapshot</name>
+					<url>${artifactory.base.url}/plugins-snapshot</url>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
+
+</project>
