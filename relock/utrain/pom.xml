@@ -40,7 +40,7 @@
 		<version.hibernate4.commons-annotations>4.0.2.Final</version.hibernate4.commons-annotations>
 		<version.hibernate4.validator>4.3.2.Final</version.hibernate4.validator>
 		<apachetiles.version>3.0.8</apachetiles.version>
-	
+
 		<skipTests>true</skipTests>
 	</properties>
 
@@ -76,7 +76,7 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- <dependency> <groupId>labyrinth</groupId> <artifactId>labyrinth</artifactId> 
+			<!-- <dependency> <groupId>labyrinth</groupId> <artifactId>labyrinth</artifactId>
 				<version>1.0</version> <type>war</type> </dependency> -->
 
 			<!-- Test dependencies -->
@@ -93,7 +93,7 @@
 				<version>2.1.1</version>
 			</dependency>
 
-			
+
 
 		</dependencies>
 	</dependencyManagement>
@@ -136,62 +136,6 @@
 						</manifestSections>
 					</archive>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-				<configuration>
-					<buildNumberPropertiesFileLocation>${buildNumberPropertiesFile.dir}/buildNumber.properties</buildNumberPropertiesFileLocation>
-				</configuration>
-				<executions>
-					<execution>
-						<id>generate-revision</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>create</goal>
-						</goals>
-						<configuration>
-							<useLastCommittedRevision>false</useLastCommittedRevision>
-							<revisionOnScmFailure>local</revisionOnScmFailure>
-							<buildNumberPropertyName>build.revision</buildNumberPropertyName>
-							<timestampFormat>{0,date,yyyy-MM-dd HH:mm}</timestampFormat>
-							<doCheck>false</doCheck>
-							<doUpdate>false</doUpdate>
-							<shortRevisionLength>8</shortRevisionLength>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-datetime</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>create</goal>
-						</goals>
-						<configuration>
-							<buildNumberPropertyName>build.datetime</buildNumberPropertyName>
-							<timestampFormat>{0,date,yyyy-MM-dd HH:mm}</timestampFormat>
-							<timestampPropertyName>build.time</timestampPropertyName>
-							<format>{0,date,yyyyMMdd-HHmm}</format>
-							<items>
-								<item>timestamp</item>
-							</items>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-counter</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>create</goal>
-						</goals>
-						<configuration>
-							<shortRevisionLength>8</shortRevisionLength>
-							<buildNumberPropertyName>build.counter</buildNumberPropertyName>
-							<format>{0,number,00000}</format>
-							<items>
-								<item>buildNumber0</item>
-							</items>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 
 		</plugins>
@@ -242,6 +186,14 @@
 						<failIfNoTests>false</failIfNoTests>
 					</configuration>
 				</plugin>
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>5.2.2</version>
+                    <configuration>
+                        <format>ALL</format>
+                    </configuration>
+                </plugin>
 			</plugins>
 
 		</pluginManagement>

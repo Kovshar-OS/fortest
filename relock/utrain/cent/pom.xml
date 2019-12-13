@@ -18,7 +18,7 @@
 		<dist.dir>${project.basedir}/target</dist.dir>
 	</properties>
 
-	
+	<dependencies>
 		<!-- General dependencies for standard applications -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -177,12 +177,6 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>rccfe</groupId>
-			<artifactId>server</artifactId>
-			<version>1.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
