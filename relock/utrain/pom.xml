@@ -16,8 +16,7 @@
 	</modules>
 
 	<properties>
-		<scm.host>dd01.intra</scm.host>
-		<artifactory.base.url>https://${scm.host}/artifactory</artifactory.base.url>
+		<artifactory.base.url>https://dd01.intra/artifactory</artifactory.base.url>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.12</junit.version>
 		<plugin.surefire>2.21.0</plugin.surefire>
@@ -237,46 +236,6 @@
 					<id>snapshots</id>
 					<name>plugins-snapshot</name>
 					<url>http://localhost:8081/artifactory/plugins-snapshot</url>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
-		<profile>
-			<id>repo-usb</id>
-			<activation>
-				<file>
-					<missing>${user.home}/maven.repo.local</missing>
-				</file>
-			</activation>
-			<repositories>
-				<repository>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-					<id>central</id>
-					<name>libs-release</name>
-					<url>${artifactory.base.url}/libs-release</url>
-				</repository>
-				<repository>
-					<snapshots />
-					<id>snapshots</id>
-					<name>libs-snapshot</name>
-					<url>${artifactory.base.url}/libs-snapshot</url>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-					<id>central</id>
-					<name>plugins-release</name>
-					<url>${artifactory.base.url}/plugins-release</url>
-				</pluginRepository>
-				<pluginRepository>
-					<snapshots />
-					<id>snapshots</id>
-					<name>plugins-snapshot</name>
-					<url>${artifactory.base.url}/plugins-snapshot</url>
 				</pluginRepository>
 			</pluginRepositories>
 		</profile>
