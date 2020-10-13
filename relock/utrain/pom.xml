@@ -19,7 +19,7 @@
 		<scm.host>dd01.intra</scm.host>
 		<artifactory.base.url>https://${scm.host}/artifactory</artifactory.base.url>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<plugin.surefire>2.21.0</plugin.surefire>
 		<target.jvm.version>1.8</target.jvm.version>
 		<source.jvm.version>1.8</source.jvm.version>
